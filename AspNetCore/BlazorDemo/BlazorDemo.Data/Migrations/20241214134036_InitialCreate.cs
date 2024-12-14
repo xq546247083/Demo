@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MVCDemo.Data.Migrations
+namespace BlazorDemo.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -17,10 +17,10 @@ namespace MVCDemo.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Genre = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Genre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {
