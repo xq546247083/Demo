@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RazorDemo.Data;
 using RazorDemo.Data.Context;
 
 #nullable disable
@@ -12,7 +11,7 @@ using RazorDemo.Data.Context;
 namespace RazorDemo.Data.Migrations
 {
     [DbContext(typeof(RazorDemoContext))]
-    [Migration("20241214005833_InitialCreate")]
+    [Migration("20241214125527_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,15 +27,19 @@ namespace RazorDemo.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(60)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

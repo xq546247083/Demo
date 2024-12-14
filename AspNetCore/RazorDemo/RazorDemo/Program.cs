@@ -9,8 +9,7 @@ namespace RazorDemo
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<RazorDemoContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("RazorDemoContext"),
-                        options => options.MigrationsAssembly("RazorDemo")));
+                options.UseSqlite(builder.Configuration.GetConnectionString("RazorDemoContext")));
 
             // Add services to the container.
             builder.Services.AddRazorPages();
