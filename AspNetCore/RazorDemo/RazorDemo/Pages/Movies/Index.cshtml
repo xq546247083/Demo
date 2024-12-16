@@ -6,7 +6,13 @@
 }
 
 <h1>Index</h1>
-
+@{
+    if (TempData["Message"] != null)
+    {
+        <h3>Message: @TempData["Message"]</h3>
+    }
+    TempData.Keep("Message");
+}
 <p>
     <a asp-page="Create">Create New</a>
 </p>
@@ -20,7 +26,6 @@
         <input type="submit" value="Filter" />
     </p>
 </form>
-
 <table class="table">
     <thead>
         <tr>

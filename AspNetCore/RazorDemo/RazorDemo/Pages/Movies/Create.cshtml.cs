@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using RazorDemo.Data;
 using RazorDemo.Data.Context;
 using RazorDemo.Data.Model;
 
@@ -28,6 +22,12 @@ namespace RazorDemo.Pages.Movies
         [BindProperty]
         public Movie Movie { get; set; } = default!;
 
+        [TempData]
+        public string Message
+        {
+            get; set;
+        }
+
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
@@ -39,6 +39,7 @@ namespace RazorDemo.Pages.Movies
             _context.Movie.Add(Movie);
             await _context.SaveChangesAsync();
 
+            Message = $"Movie {Movie.Title} added";
             return RedirectToPage("./Index");
         }
     }
