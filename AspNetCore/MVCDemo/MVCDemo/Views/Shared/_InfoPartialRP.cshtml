@@ -1,0 +1,16 @@
+﻿<h3>Model和ViewData数据</h3>
+<div>
+    <h4>Model:</h4>
+    @if (Model != null) 
+    {
+        <label>@Model.ToString()</label>
+    }
+   <br />
+   <h4>ViewData:</h4>
+    @foreach (var item in @ViewData)
+    {
+        <label>@item.Key</label>
+        <label>@item.Value</label>
+        <br />
+    }
+</div>

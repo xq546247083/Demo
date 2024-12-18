@@ -47,6 +47,7 @@ namespace MVCDemo.Controllers
                 Movies = await movies.ToListAsync()
             };
 
+            ViewData["Name"] = "测试分部视图";
             return View(movieGenreVM);
         }
 
