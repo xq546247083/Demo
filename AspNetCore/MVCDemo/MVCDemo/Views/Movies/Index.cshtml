@@ -66,3 +66,15 @@
 </table>
 
 @await Html.PartialAsync("_InfoPartialRP")
+@await Component.InvokeAsync("MovieList",
+            new
+            {
+               componentName = "Default",
+               maxCount = 1,
+            })
+@await Component.InvokeAsync("MovieList",
+                new
+                {
+                    componentName = "Default2",
+                    maxCount = 3,
+                })
