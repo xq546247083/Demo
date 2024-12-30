@@ -16,4 +16,26 @@
     {
         currentCount++;
     }
+
+    protected override void OnInitialized()
+    {
+        AutoIncrementCount();
+        base.OnInitialized();
+    }
+
+    private  void AutoIncrementCount() 
+    {
+        Task.Run(async () => 
+        {
+            while (true) 
+            {
+                await this.InvokeAsync(() =>
+                {
+                    currentCount++;
+                    StateHasChanged();
+                });
+                await Task.Delay(1000);
+            }
+        });
+    }
 }
