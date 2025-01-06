@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using RazorDemo.Data.Model;
 
 namespace RazorDemo.Pages.Movies
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly RazorDemoContext _context;

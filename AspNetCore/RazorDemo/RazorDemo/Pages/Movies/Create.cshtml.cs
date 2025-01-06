@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorDemo.Data.Context;
 using RazorDemo.Data.Model;
 
 namespace RazorDemo.Pages.Movies
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly RazorDemoContext _context;
