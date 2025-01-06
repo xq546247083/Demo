@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RazorDemo.Data.Context;
 
 namespace RazorDemo
@@ -12,6 +13,8 @@ namespace RazorDemo
                 options.UseSqlite(builder.Configuration.GetConnectionString("RazorDemoContext")));
 
             // Add services to the container.
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<RazorDemoContext>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

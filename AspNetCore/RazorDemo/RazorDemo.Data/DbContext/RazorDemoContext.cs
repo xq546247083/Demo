@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace RazorDemo.Data.Context
 {
-    public class RazorDemoContext : DbContext
+    public class RazorDemoContext : IdentityDbContext
     {
         public RazorDemoContext (DbContextOptions<RazorDemoContext> options)
             : base(options)

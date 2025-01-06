@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RazorDemo.Data.Context;
 
@@ -10,9 +11,11 @@ using RazorDemo.Data.Context;
 namespace RazorDemo.Data.Migrations
 {
     [DbContext(typeof(RazorDemoContext))]
-    partial class RazorDemoContextModelSnapshot : ModelSnapshot
+    [Migration("20250106080621_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
