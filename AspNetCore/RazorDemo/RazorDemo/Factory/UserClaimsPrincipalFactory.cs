@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using RazorDemo.Data.Model;
 using System.Security.Claims;
 
 namespace RazorDemo.Factory;
@@ -13,7 +14,7 @@ namespace RazorDemo.Factory;
 /// </summary>
 /// <typeparam name="TUser">The type used to represent a user.</typeparam>
 public class RazorDemoUserClaimsPrincipalFactory<TUser> : IUserClaimsPrincipalFactory<TUser>
-    where TUser : class
+    where TUser : User
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserClaimsPrincipalFactory{TUser}"/> class.
@@ -78,6 +79,7 @@ public class RazorDemoUserClaimsPrincipalFactory<TUser> : IUserClaimsPrincipalFa
         id.AddClaim(new Claim(Options.ClaimsIdentity.UserNameClaimType, userName!));
         // 缓存用户数据
         id.AddClaim(new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(user)));
+        id.AddClaim(new Claim(ClaimTypes.DateOfBirth, user.DOB.ToString()));
         if (UserManager.SupportsUserEmail)
         {
             var email = await UserManager.GetEmailAsync(user).ConfigureAwait(false);
@@ -113,7 +115,7 @@ public class RazorDemoUserClaimsPrincipalFactory<TUser> : IUserClaimsPrincipalFa
 /// <typeparam name="TUser">The type used to represent a user.</typeparam>
 /// <typeparam name="TRole">The type used to represent a role.</typeparam>
 public class RazorDemoUserClaimsPrincipalFactory<TUser, TRole> : RazorDemoUserClaimsPrincipalFactory<TUser>
-    where TUser : class
+    where TUser : User
     where TRole : class
 {
     /// <summary>

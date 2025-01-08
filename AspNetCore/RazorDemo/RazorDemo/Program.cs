@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using RazorDemo.Authorization;
+using RazorDemo.Authorization.AuthorizationRequirement;
 using RazorDemo.Data.Context;
 using RazorDemo.Data.Model;
 using RazorDemo.Factory;
@@ -72,6 +73,12 @@ namespace RazorDemo
             builder.Services.AddScoped<IAuthorizationHandler,IsOwnerAuthorizationHandler>();
             builder.Services.AddSingleton<IAuthorizationHandler,AdministratorsAuthorizationHandler>();
             builder.Services.AddSingleton<IAuthorizationHandler,ManagerAuthorizationHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler, MinimumAgeAuthorizationHandler>();
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AtLeast21", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+            });
 
             var app = builder.Build();
 
