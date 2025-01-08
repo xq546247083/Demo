@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 using RazorDemo.Data.Context;
+using RazorDemo.Data.Enum;
 using RazorDemo.Data.Model;
 
 namespace RazorDemo.Pages.Movies
 {
     [Authorize]
-    public class CreateModel : PageModel
+    public class CreateModel : RazorDemoPageModel
     {
         private readonly RazorDemoContext _context;
 
@@ -38,6 +40,8 @@ namespace RazorDemo.Pages.Movies
                 return Page();
             }
 
+            Movie.Status = ContactStatus.Approved;
+            Movie.OwnerID = CurrentUser?.Id;
             _context.Movie.Add(Movie);
             await _context.SaveChangesAsync();
 

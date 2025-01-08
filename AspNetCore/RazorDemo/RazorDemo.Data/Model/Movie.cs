@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RazorDemo.Data.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RazorDemo.Data.Model;
@@ -35,6 +36,17 @@ public class Movie
     [DataType(DataType.Currency)]
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Price
+    {
+        get; set;
+    }
+
+    // user ID from AspNetUser table.
+    public string? OwnerID
+    {
+        get; set;
+    }
+
+    public ContactStatus Status
     {
         get; set;
     }

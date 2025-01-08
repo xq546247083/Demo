@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using RazorDemo.Data.Context;
 using RazorDemo.Data.Model;
+using RazorDemo.Factory;
 
 namespace RazorDemo
 {
@@ -10,6 +14,7 @@ namespace RazorDemo
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             builder.Services.AddDbContext<RazorDemoContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("RazorDemoContext")));
 
@@ -17,6 +22,14 @@ namespace RazorDemo
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<RazorDemoContext>();
             builder.Services.AddRazorPages();
+
+            builder.Services.AddControllers(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             builder.Services.Configure<IdentityOptions>(options =>
             {
@@ -45,10 +58,14 @@ namespace RazorDemo
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            // 添加自定义claim工厂
+            builder.Services.RemoveAll(typeof(IUserClaimsPrincipalFactory<User>));
+            builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, RazorDemoUserClaimsPrincipalFactory<User>>();
 
             var app = builder.Build();
 
