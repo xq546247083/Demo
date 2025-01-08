@@ -1,6 +1,6 @@
 ﻿namespace RazorDemo.Data.Enum
 {
-    public enum ContactStatus
+    public enum MovieStatus
     {
         Submitted,
         Approved,

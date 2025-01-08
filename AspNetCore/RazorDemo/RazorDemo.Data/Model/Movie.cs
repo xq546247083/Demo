@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RazorDemo.Data.Model;
 
-public class Movie
+public class Movie:BaseOwner
 {
     public int Id
     {
@@ -40,13 +40,7 @@ public class Movie
         get; set;
     }
 
-    // user ID from AspNetUser table.
-    public string? OwnerID
-    {
-        get; set;
-    }
-
-    public ContactStatus Status
+    public MovieStatus Status
     {
         get; set;
     }

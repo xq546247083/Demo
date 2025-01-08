@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using RazorDemo.Authorization;
 using RazorDemo.Data.Context;
 using RazorDemo.Data.Enum;
 using RazorDemo.Data.Model;
@@ -11,11 +13,10 @@ namespace RazorDemo.Pages.Movies
     [Authorize]
     public class CreateModel : RazorDemoPageModel
     {
-        private readonly RazorDemoContext _context;
-
-        public CreateModel(RazorDemoContext context)
+        public CreateModel(RazorDemoContext context,
+            IAuthorizationService authorizationService,
+            UserManager<User> userManager):base(context, authorizationService,userManager)
         {
-            _context = context;
         }
 
         public IActionResult OnGet()
@@ -40,10 +41,16 @@ namespace RazorDemo.Pages.Movies
                 return Page();
             }
 
-            Movie.Status = ContactStatus.Approved;
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Movie, Operations.Create);
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            Movie.Status = MovieStatus.Submitted;
             Movie.OwnerID = CurrentUser?.Id;
-            _context.Movie.Add(Movie);
-            await _context.SaveChangesAsync();
+            DBContext.Movie.Add(Movie);
+            await DBContext.SaveChangesAsync();
 
             Message = $"Movie {Movie.Title} added";
             return RedirectToPage("./Index");

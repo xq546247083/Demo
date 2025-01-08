@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using RazorDemo.Authorization;
 using RazorDemo.Data.Context;
 using RazorDemo.Data.Model;
 using RazorDemo.Factory;
@@ -66,6 +67,11 @@ namespace RazorDemo
             // 添加自定义claim工厂
             builder.Services.RemoveAll(typeof(IUserClaimsPrincipalFactory<User>));
             builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, RazorDemoUserClaimsPrincipalFactory<User>>();
+
+            builder.Services.AddScoped<IAuthorizationHandler, NonAuthorizationHandler>();
+            builder.Services.AddScoped<IAuthorizationHandler,IsOwnerAuthorizationHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler,AdministratorsAuthorizationHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler,ManagerAuthorizationHandler>();
 
             var app = builder.Build();
 
